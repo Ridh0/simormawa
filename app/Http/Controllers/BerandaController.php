@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Disposisi;
+use App\Models\Proposal;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class BerandaController extends Controller
@@ -13,7 +16,34 @@ class BerandaController extends Controller
      */
     public function index()
     {
-      return view('beranda.index');
+        $disposisiall = Disposisi::all()->count();
+        $disposisipending = Disposisi::where('status', 1)->count();
+        $disposisiproses = Disposisi::where('status', '!=', 1)
+        ->where('status', '!=', 5)->where('status', '!=', 6)->count();
+        $disposisiacc = Disposisi::where('status', 5)->count();
+        $disposisireject = Disposisi::where('status', 6)->count();
+        $proposalall = Proposal::all()->count();
+        $proposalpending = Proposal::where('status', 1)->count();
+        $proposalproses = Proposal::where('status', '!=', 1)
+        ->where('status', '!=', 5)->where('status', '!=', 6)->count();
+        $proposalacc = Proposal::where('status', 5)->count();
+        $proposalreject = Proposal::where('status', 6)->count();
+        $userall = User::all()->count();
+        $user = User::all();
+        return view('beranda.index', compact(
+            'userall',
+            'user',
+            'disposisiproses',
+            'disposisiall',
+            'disposisipending',
+            'disposisiacc',
+            'disposisireject',
+            'proposalall',
+            'proposalproses',
+            'proposalpending',
+            'proposalacc',
+            'proposalreject'
+        ));
     }
 
     /**

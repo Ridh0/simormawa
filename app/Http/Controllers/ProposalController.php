@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Proposal;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProposalController extends Controller
 {
@@ -13,7 +15,8 @@ class ProposalController extends Controller
      */
     public function index()
     {
-        //
+        $data = Proposal::all();
+        return view('proposal.index',compact('data'));
     }
 
     /**
@@ -23,7 +26,9 @@ class ProposalController extends Controller
      */
     public function create()
     {
-        //
+        
+        return view('proposal.create');
+
     }
 
     /**
@@ -34,7 +39,35 @@ class ProposalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'perihal' => 'nullable',
+            'users_id'=> 'nullable',
+            'noproposal'=> 'nullable',
+            'judul'=> 'nullable',
+            'asal'=> 'nullable',
+            'jenis'=> 'nullable',
+            'tanggal_kirim'=> 'nullable',
+            'file'=> 'nullable',
+            'status'=> 'nullable',
+        ]);
+        $filename=null;
+        if ($request->hasFile('file')) {
+            $filename = $request->file->getClientOriginalName();
+            $request->file->move(public_path('fileproposal'), $filename);
+        } 
+        Proposal::create([
+            'perihal' => $request->perihal,
+            'users_id'=> $request-> users_id,
+            'noproposal'=> $request->noproposal,
+            'judul'=> $request->judul,
+            'asal'=> $request->asal,
+            'jenis'=> $request->jenis,
+            'tanggal_kirim'=> $request->tanggal_kirim,
+            'file'=> $filename,
+            'status'=> $request->status,
+        ]);
+        Alert::success('Berhasil', 'Berhasil Menambah Data !');
+        return back()->with('success','' );
     }
 
     /**
@@ -54,9 +87,9 @@ class ProposalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Proposal $proposal)
     {
-        //
+       return view('proposal.edit',compact('proposal'));
     }
 
     /**
@@ -66,9 +99,39 @@ class ProposalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $this->validate($request, [
+            'perihal' => 'nullable',
+            'users_id'=> 'nullable',
+            'noproposal'=> 'nullable',
+            'judul'=> 'nullable',
+            'asal'=> 'nullable',
+            'jenis'=> 'nullable',
+            'tanggal_kirim'=> 'nullable',
+            'file'=> 'nullable',
+            'status'=> 'nullable',
+        ]);
+        $data = Proposal::find($request->id);
+
+        $filename=$data->file;
+        if ($request->hasFile('file')) {
+            $filename = $request->file->getClientOriginalName();
+            $request->file->move(public_path('fileproposal'), $filename);
+        } 
+        $data->update([
+            'perihal' => $request->perihal,
+            'users_id'=> $request-> users_id,
+            'noproposal'=> $request->noproposal,
+            'judul'=> $request->judul,
+            'asal'=> $request->asal,
+            'jenis'=> $request->jenis,
+            'tanggal_kirim'=> $request->tanggal_kirim,
+            'file'=> $filename,
+            'status'=> $request->status,
+        ]);
+        Alert::success('Berhasil', 'Berhasil Menambah Data !');
+        return back()->with('success','' );
     }
 
     /**
@@ -77,8 +140,11 @@ class ProposalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function hapus( $proposal)
     {
-        //
+        $data = Proposal::find($proposal);
+        $data->delete();
+        Alert::success('Berhasil', 'Berhasil Menghapus Data !');
+        return back()->with('success', "Data telah berhasil dideleted !!."); 
     }
 }

@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Disposisi;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DisposisiController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +19,8 @@ class DisposisiController extends Controller
      */
     public function index()
     {
-        return view('disposisi.index');
+        $data = Disposisi::all();
+        return view('disposisi.index',compact('data'));
     }
 
     /**
@@ -36,7 +43,34 @@ class DisposisiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'perihal' => 'nullable',
+            'users_id' => 'nullable',
+            'hal' => 'nullable',
+            'subjek' => 'nullable',
+            'status' => 'nullable',
+        ]);
+        $filename=null;
+        if ($request->hasFile('file')) {
+            $filename = $request->file->getClientOriginalName();
+            $request->file->move(public_path('filedisposisi'), $filename);
+        } 
+        Disposisi::create([
+            'perihal' =>$request->perihal,
+            'nosurat' =>$request->nosurat,
+            'jenis' =>$request->jenis,
+            'tanggal_kirim' =>$request->tanggal_kirim,
+            'lampiran' =>$request->lampiran,
+            'file' =>$filename,
+            'users_id' =>$request->users_id,
+            'hal' =>$request->hal,
+            'subjek' =>$request->subjek,
+            'status' =>$request->status,
+            'asal' =>$request->asal,
+            'tujuan' =>$request->tujuan,
+        ]);
+        Alert::success('Berhasil', 'Berhasil Menambah Data !');
+        return back()->with('success','' );
     }
 
     /**
@@ -56,9 +90,9 @@ class DisposisiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Disposisi $disposisi)
     {
-        //
+        return view('disposisi.edit',compact('disposisi'));
     }
 
     /**
@@ -68,9 +102,38 @@ class DisposisiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $this->validate($request, [
+            'perihal' => 'nullable',
+            'users_id' => 'nullable',
+            'hal' => 'nullable',
+            'subjek' => 'nullable',
+            'status' => 'nullable',
+        ]);
+        $data = Disposisi::find($request->id);
+        $filename=$data->file;
+        if ($request->hasFile('file')) {
+            $filename = $request->file->getClientOriginalName();
+            $request->file->move(public_path('filedisposisi'), $filename);
+        } 
+        $data->update([
+            'perihal' =>$request->perihal,
+            'nosurat' =>$request->nosurat,
+            'jenis' =>$request->jenis,
+            'tanggal_kirim' =>$request->tanggal_kirim,
+            'lampiran' =>$request->lampiran,
+            'file' =>$filename,
+            'users_id' =>$request->users_id,
+            'hal' =>$request->hal,
+            'subjek' =>$request->subjek,
+            'status' =>$request->status,
+            'asal' =>$request->asal,
+            'tujuan' =>$request->tujuan,
+        ]);
+        Alert::success('Berhasil', 'Berhasil Mengubah Data !');
+
+        return back()->with('success');
     }
 
     /**
@@ -79,8 +142,11 @@ class DisposisiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function hapus( $disposisi)
     {
-        //
+        $data = Disposisi::find($disposisi);
+        $data->delete();
+        Alert::success('Berhasil', 'Berhasil Menghapus Data !');
+        return back()->with('success', "Data telah berhasil dideleted !!."); 
     }
 }

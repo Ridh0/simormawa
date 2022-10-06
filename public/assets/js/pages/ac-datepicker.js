@@ -1,4 +1,3 @@
-'use strict';
 $(document).ready(function() {
     $(function() {
 	  $('input[name="daterange"]').daterangepicker({

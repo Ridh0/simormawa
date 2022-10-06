@@ -1,19 +1,10 @@
 @extends('layouts.app')
-
+@section('css')
+<link rel="stylesheet" href="{{asset('assets/css/plugins/daterangepicker.css')}}" />
+@endsection
 @section('content')
-<!-- [ Pre-loader ] start -->
-<div class="loader-bg">
-    <div class="loader-track">
-        <div class="loader-fill"></div>
-    </div>
-</div>
-<!-- [ Pre-loader ] End -->
-<!-- [ navigation menu ] start -->
+@include('sweetalert::alert')
 
-<!-- [ navigation menu ] end -->
-<!-- [ Header ] start -->
-
-<!-- [ Header ] end -->
 
 
 
@@ -46,48 +37,59 @@
                         <h5>Tambah Data Disposisi</h5>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <form>
+                        <form method="post" action="{{route('disposisi.store')}}" enctype="multipart/form-data">
+                            @csrf
+                            @method('post')
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Email address</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                        <label for="nomorsurat">Nomor Surat</label>
+                                        <input type="text" id="nomorsurat" name="nosurat" class="form-control" id="validationCustom02" placeholder="01/HMJ-Teknik Komputer/Ph/X/2022">
+                                        <small id="emailHelp" class="form-text text-muted">Format : 01/HMJ-Teknik Komputer/Ph/X/2022</small>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputPassword1">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                                    </div>
-                                    <div class="form-group form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                                    </div>
-                                    <button type="submit" class="btn  btn-primary">Submit</button>
-                                </form>
-                            </div>
-                            <div class="col-md-6">
-                                <form>
-                                    <div class="form-group">
-                                        <label>Text</label>
-                                        <input type="text" class="form-control" placeholder="Text">
+                                        <label for="exampleInputHal1">Lampiran</label>
+                                        <input type="text" name="lampiran" id="exampleInputHal1" class="form-control" placeholder="1 (Satu) Lembar">
+                                        <small id="emailHelp" class="form-text text-muted">Format : 1 (Satu) Lembar</small>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Example select</label>
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                        <label for="exampleInputHal1">Perihal</label>
+                                        <input type="text" name="perihal" id="exampleInputHal1" class="form-control" placeholder="Permohonan Keamanan Tempat">
+                                        <small id="emailHelp" class="form-text text-muted">Format : Permohonan Keamanan Tempat</small>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exampleInputHal1">Jenis</label>
+                                        <select class="form-control" name="jenis" id="">
+                                            <option value="Surat Permohonan">Surat Permohonan</option>
+                                            <option value="Surat Keamanan">Surat Keamanan</option>
+                                            <option value="Surat Peminjaman">Surat Peminjaman</option>
+                                            <option value="Surat Perizinan">Surat Perizinan</option>
+                                            <option value="Surat Kegiatan">Surat Kegiatan</option>
+                                            <option value="Dan Lain-Lain">Dan Lain-Lain</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleFormControlTextarea1">Example textarea</label>
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                        <input type="hidden" name="users_id" value="1">
+                                        <label for="exampleInputEmail1">Tanggal Kirim</label>
+                                        <input type="date" name="tanggal_kirim" class="form-control" id="exampleInputPassword1" placeholder="Perihal">
                                     </div>
-                                </form>
+                                    <div class="form-group">
+                                        <input type="hidden" name="users_id" value="1">
+                                        <label for="exampleInputEmail1">File Upload</label>
+                                        <input type="file" name="file" class="form-control" id="exampleInputPassword1" placeholder="Perihal">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn  btn-primary">Submit</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -96,4 +98,24 @@
         <!-- [ Main Content ] end -->
     </div>
 </section>
+@endsection
+@section('scripts')
+<script src="{{asset('assets/bootstrap-datepicker/js/bootstrap-datepicker.js')}}"></script>
+<script src="{{asset('assets/bootstrap-datepicker/locales/bootstrap-datepicker.id.min.js')}}"></script>
+<script src="{{asset('assets/js/plugins/daterangepicker.js')}}"></script>
+<script src="{{asset('assets/js/pages/ac-datepicker.js')}}"></script>
+<script >
+    $(function() {
+	  $('input[name="birthday"]').daterangepicker({
+		singleDatePicker: true,
+		showDropdowns: true,
+		minYear: 1901,
+		maxYear: parseInt(moment().format('YYYY'),10)
+	  }, function(start, end, label) {
+		var years = moment().diff(start, 'years');
+		alert("You are " + years + " years old!");
+	  });
+	});
+</script>
+
 @endsection

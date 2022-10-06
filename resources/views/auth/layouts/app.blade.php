@@ -3,7 +3,7 @@
 
 <head>
 
-    <title>Ablepro v8.0 bootstrap admin template by Phoenixcoded</title>
+    <title>Simormawa</title>
     <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 11]>
