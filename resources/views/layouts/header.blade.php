@@ -26,7 +26,7 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li>
+            <!-- <li>
                 <div class="dropdown">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon feather icon-bell"></i></a>
                     <div class="dropdown-menu dropdown-menu-right notification">
@@ -86,16 +86,16 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li> -->
             <li>
                 <div class="dropdown drp-user">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="feather icon-user"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-notification">
-                        <div class="pro-head bg-secondary">
-                            <img src="assets/images/user/avatar-1.jpg" class="img-radius" alt="User-Profile-Image">
-                            <span>John Doe</span>
+                        <div class="pro-head bg-dark">
+                            <!-- <img src="" class="img-radius" alt="User-Profile-Image"> -->
+                            <span>{{auth()->user()->name}}</span>
                             <a href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();" class="dud-logout" title="Logout">
                                 <i class="feather icon-log-out"></i>
@@ -104,11 +104,11 @@
                                 @csrf
                             </form>
                         </div>
-                        <ul class="pro-body">
+                        <!-- <ul class="pro-body">
                             <li><a href="user-profile.html" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
                             <li><a href="email_inbox.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
                             <li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
             </li>

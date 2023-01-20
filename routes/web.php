@@ -24,6 +24,7 @@ Auth::routes();
 Route::get('/beranda', [App\Http\Controllers\BerandaController::class, 'index'])->name('beranda.index');
 Route::get('/userss', [App\Http\Controllers\HomeController::class, 'index'])->name('user.index');
 Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('user.profile');
+Route::put('/profile/store', [App\Http\Controllers\HomeController::class, 'ubah_password'])->name('profile.password');
 Route::get('/disposisi', [App\Http\Controllers\DisposisiController::class, 'index'])->name('disposisi.index');
 Route::get('/disposisi/create', [App\Http\Controllers\DisposisiController::class, 'create'])->name('disposisi.create');
 Route::post('/disposisi/store', [App\Http\Controllers\DisposisiController::class, 'store'])->name('disposisi.store');
